@@ -3,36 +3,53 @@
 
 #include <iostream>
 #include <string.h>
-#include <cassert>
+
+char* getInput(char* str) {
+	std::cout << "Введите несколько слов через пробел:\n";
+	return gets_s(str, 100);
+}
+
+void printOutput(const char* str) {
+	puts(str);
+}
+
+void reverseWords(char* str) {
+
+    char* words[100 / 2];
+    int count = 0;
+    char* context = nullptr;
+
+    char* token = strtok_s(str, " ", &context);
+    while (token) {
+        words[count++] = token;
+        token = strtok_s(nullptr, " ", &context);
+    }
+
+    for (int i = 1; i < count; i += 2) {
+        std::reverse(words[i], words[i] + strlen(words[i]));
+    }
+
+    char result[100] = "";
+    for (int i = 0; i < count; i++) {
+        strcat_s(result, words[i]);
+        if (i < count - 1) strcat_s(result, " ");
+    }
+
+    strcpy_s(str, 100, result);
+
+}
 
 int main()
 {
-	setlocale(LC_ALL,"rus");
+
+    setlocale(LC_ALL, "Russian");
 
 	char str[100];
-	int mas[10];
-	char space = ' ';
-	int count = 0;
 
-	printf("Введите несколько слов через пробел\n");
-	gets_s(str);
+	getInput(str);
+	reverseWords(str);
+	printOutput(str);
 	
-	for (int i = 0; i < strlen(str); i++) {
-		if (str[i] == space) {
-			count++;
-			mas[i] = i;
-			printf("%d пробел\n", i);
-		}
-
-	}
-
-	for (int i = 0; i < 10; i++) {
-		printf("%d\n", mas[i]);
-
-	}
-
-	std::reverse(std::begin(str), std::end(str));
-	printf(str);
 
 	return 0;
 }
