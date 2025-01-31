@@ -5,16 +5,23 @@
 #include <string.h>
 
 char* getInput(char* str) {
-	std::cout << "Введите несколько слов через пробел:\n";
-	return gets_s(str, 100);
+    std::cout << "Введите несколько слов через пробел:\n";
+    return gets_s(str, 100);
 }
 
 void printOutput(const char* str) {
-	puts(str);
+    puts(str);
+}
+
+bool isWord(const char* str) {
+    while (*str) {
+        if (std::isalpha(*str)) return true;
+        str++;
+    }
+    return false;
 }
 
 void reverseWords(char* str) {
-
     char* words[100 / 2];
     int count = 0;
     char* context = nullptr;
@@ -25,8 +32,23 @@ void reverseWords(char* str) {
         token = strtok_s(nullptr, " ", &context);
     }
 
-    for (int i = 1; i < count; i += 2) {
-        std::reverse(words[i], words[i] + strlen(words[i]));
+    int wordIndex = 0;
+
+    for (int i = 0; i < count; i++) {
+        if (isWord(words[i])) {
+            if (wordIndex % 2 == 1) {
+                int len = strlen(words[i]);
+                char lastChar = words[i][len - 1];
+
+                if (strchr(".,;:!?", lastChar)) {
+                    std::reverse(words[i], words[i] + len - 1);
+                }
+                else {
+                    std::reverse(words[i], words[i] + len);
+                }
+            }
+            wordIndex++;
+        }
     }
 
     char result[100] = "";
@@ -36,23 +58,20 @@ void reverseWords(char* str) {
     }
 
     strcpy_s(str, 100, result);
-
 }
 
-int main()
-{
-
+int main() {
     setlocale(LC_ALL, "Russian");
 
-	char str[100];
+    char str[100];
 
-	getInput(str);
-	reverseWords(str);
-	printOutput(str);
-	
+    getInput(str);
+    reverseWords(str);
+    printOutput(str);
 
-	return 0;
+    return 0;
 }
+
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"

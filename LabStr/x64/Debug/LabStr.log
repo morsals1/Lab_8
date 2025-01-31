@@ -1,2 +1,3 @@
 ﻿  LabStr.cpp
+C:\Users\mensh\Desktop\Lab_8-main\LabStr\LabStr.cpp(40,25): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
   LabStr.vcxproj -> C:\Users\mensh\Desktop\Lab_8-main\LabStr\x64\Debug\LabStr.exe
